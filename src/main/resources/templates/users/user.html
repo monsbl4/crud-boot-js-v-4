@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Страница пользователя</title>
+</head>
+<body>
+<h2>Пользователь:</h2>
+<div>Логин: </div>
+<div th:text="${user.getUsername()}"></div>
+<br>
+<div>Имя:</div>
+<div th:text="${user.getName()}"></div>
+<br>
+<div>Фамилия:</div>
+<div th:text="${user.getLastName()}"></div>
+</br>
+<div>Возраст:</div>
+<div th:text="${user.getAge()}"></div>
+</br>
+<div>Почта:</div>
+<div th:text="${user.getEmail()}"></div>
+</br>
+<form th:method="GET" th:action="@{/logout}">
+  <input type="submit" value="Logout">
+</form>
+</body>
+</html>
