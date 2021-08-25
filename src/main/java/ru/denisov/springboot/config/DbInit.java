@@ -24,6 +24,7 @@ public class DbInit {
     private RoleDao roleDao;
 
     private Set<Role>roles = new HashSet<>();
+    private Set<Role>rolesUser = new HashSet<>();
     @PostConstruct
     private void postConstruct(){
         Role roleAdmin = new Role("ROLE_ADMIN");
@@ -32,9 +33,12 @@ public class DbInit {
         roleDao.save(roleUser);
         roles.add(roleAdmin);
         roles.add(roleUser);
-        User userAdmin = new User("serg","den","s@f.ru",32,"admin","123456");
+        rolesUser.add(roleUser);
+        User userAdmin = new User("serg","den","admin@admin.ru",32,"admin","admin");
         userAdmin.setRoles(roles);
         userService.save(userAdmin);
-
+        User userUser = new User("Oleg", "Petrov", "user@user.ru",44,"user","user");
+        userUser.setRoles(rolesUser);
+        userService.save(userUser);
     }
 }

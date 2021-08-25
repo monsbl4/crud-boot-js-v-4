@@ -40,8 +40,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void update(int id, User updatedUser) {
-        userDao.update(id,updatedUser);
+    public void update( User updatedUser) {
+        userDao.update(updatedUser);
     }
 
     @Override
@@ -58,9 +58,9 @@ public class UserServiceImp implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%username' not found!", username));
+            throw new UsernameNotFoundException(String.format("User '%email' not found!", username));
         }
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), user.getAuthorities());
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(), user.getAuthorities());
         return userDetails;
     }
 }

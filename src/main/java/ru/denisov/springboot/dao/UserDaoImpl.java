@@ -25,6 +25,7 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
     public User show (int id) {
         return entityManager.find(User.class,id);
     }
+
     @Transactional
     public void save(User user) {
         entityManager.persist(user);
@@ -33,9 +34,8 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
 
 
     @Transactional
-    public void update(int id, User updatedUser) { ;
+    public void update(User updatedUser) { ;
         entityManager.merge(updatedUser);
-
     }
     @Transactional
     public void delete(int id) {
@@ -43,11 +43,11 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public User getUserByUsername(String email) {
         TypedQuery<User> user = entityManager.createQuery(
-                "select user from User user WHERE user.username=:username", User.class
+                "select user from User user WHERE user.email=:email", User.class
         );
-        return user.setParameter("username", username).getResultList().stream().findAny().orElse(null);
+        return user.setParameter("email", email).getResultList().stream().findAny().orElse(null);
     }
 
     @Transactional
