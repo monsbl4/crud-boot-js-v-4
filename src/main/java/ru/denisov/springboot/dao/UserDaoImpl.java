@@ -29,7 +29,6 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
     @Transactional
     public void save(User user) {
         entityManager.persist(user);
-        entityManager.flush();
     }
 
 
@@ -43,18 +42,27 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
     }
 
     @Override
-    public User getUserByUsername(String email) {
+    public User getUserByUsername(String username) {
+        TypedQuery<User> user = entityManager.createQuery(
+                "select user from User user WHERE user.username=:username", User.class
+        );
+        return user.setParameter("username", username).getResultList().stream().findAny().orElse(null);
+    }
+
+    @Transactional
+    public void saveWithRole(User user, Set<Role> roleSet) {
+        entityManager.persist(user);
+
+
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
         TypedQuery<User> user = entityManager.createQuery(
                 "select user from User user WHERE user.email=:email", User.class
         );
         return user.setParameter("email", email).getResultList().stream().findAny().orElse(null);
     }
 
-    @Transactional
-    public void saveWithRole(User user, Set<Role> roleSet) {
-        entityManager.persist(user);
-        entityManager.flush();
-
-    }
 
 }

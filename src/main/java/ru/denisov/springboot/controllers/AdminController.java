@@ -3,11 +3,15 @@ package ru.denisov.springboot.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.denisov.springboot.models.Role;
 import ru.denisov.springboot.models.User;
 import ru.denisov.springboot.services.RoleService;
 import ru.denisov.springboot.services.UserServiceImp;
+
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,20 +39,17 @@ public class AdminController {
     }
 
 
-    @GetMapping("/new")
-    public String createUser(Model model){
-        model.addAttribute("user", new User());
-        model.addAttribute("role", roleService.getRoles());
-        return "admin/new";
-    }
-
     @PostMapping()
-    public String addUser(@ModelAttribute("user") User user,
+    public String addUser(@ModelAttribute("user") User user, BindingResult bindingResult,
                           @RequestParam(value = "select_role", required = false) String role) {
         Set<Role>roles = new HashSet<>();
         roles.add(roleService.getRoleByName(role));
         user.setRoles(roles);
-        userServiceImp.save(user);
+        if (bindingResult.hasErrors()){
+            return "admin/index";
+        }
+
+        userServiceImp.saveUser(user);
         return "redirect:/admin/";
     }
 

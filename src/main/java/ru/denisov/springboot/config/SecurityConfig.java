@@ -60,6 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/").permitAll() // доступность всем
+                .antMatchers("/admin").access("hasAnyRole('ROLE_ADMIN')")
+                .antMatchers("/users/user").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
                 .and().formLogin()  // Spring сам подставит свою логин форму
                 .successHandler(new LoginSuccessHandler()); // подключаем наш SuccessHandler для перенеправления по ролям
 
@@ -69,11 +71,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .and().csrf().disable();
 
-        http
-                .authorizeRequests()
-                .antMatchers("/login").anonymous()
-                .antMatchers("/admin").access("hasAnyRole('ROLE_ADMIN')")
-                .antMatchers("/users/user").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')");
+
+//                .authorizeRequests()
+//                .antMatchers("/login").anonymous()
+
     }
 
     @Bean

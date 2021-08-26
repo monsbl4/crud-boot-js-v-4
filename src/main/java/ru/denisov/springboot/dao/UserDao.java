@@ -15,4 +15,5 @@ public interface UserDao {
     public void delete(int id);
     public User getUserByUsername(String username);
     public void saveWithRole(User user, Set<Role> roleSet);
+    public User getUserByEmail(String email);
 }

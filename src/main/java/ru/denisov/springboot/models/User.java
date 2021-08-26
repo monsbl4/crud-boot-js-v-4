@@ -1,13 +1,10 @@
 package ru.denisov.springboot.models;
 
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
@@ -42,7 +39,8 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @Column(name = "username")
+    @Column(name = "username",nullable = false)
+    @Size(min = 2, max = 15, message = "введите логин")
     private String username;
 
     @Column(name = "password")
@@ -52,7 +50,6 @@ public class User implements UserDetails {
         this.lastName = lastName;
         this.email = email;
         this.age = age;
-        this.roles = roles;
         this.username = username;
         this.password = password;
     }
@@ -60,10 +57,6 @@ public class User implements UserDetails {
     public String getUsername() {
         return username;
     }
-
-//    public void addRole(Role role) {
-//        this.roles.add(role);
-//    }
 
     @Override
     public boolean isAccountNonExpired() {

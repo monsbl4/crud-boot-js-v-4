@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import ru.denisov.springboot.dao.RoleDao;
 import ru.denisov.springboot.dao.UserDao;
 import ru.denisov.springboot.models.User;
+
+import java.util.Collections;
 import java.util.List;
 
 
@@ -58,9 +60,24 @@ public class UserServiceImp implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%email' not found!", username));
+            throw new UsernameNotFoundException(String.format("User 'username' not found!", username));
         }
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(), user.getAuthorities());
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), user.getAuthorities());
         return userDetails;
+    }
+
+    public boolean saveUser(User user) {
+        User userFromDB = getUserByUsername(user.getUsername());
+
+        if (userFromDB != null) {
+            return false;
+        }
+        save(user);
+        return true;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
     }
 }
