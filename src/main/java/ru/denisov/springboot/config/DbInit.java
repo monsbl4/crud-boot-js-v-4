@@ -36,9 +36,15 @@ public class DbInit {
         rolesUser.add(roleUser);
         User userAdmin = new User("serg","den","admin@admin.ru",32,"admin","admin");
         userAdmin.setRoles(roles);
+        User admin2 = new User("admin", "adminL","admin2@admin.ru",44,"admin2","admin");
+        admin2.setRoles(roles);
         userService.save(userAdmin);
         User userUser = new User("Oleg", "Petrov", "user@user.ru",44,"user","user");
+        User user2 = new User ("User2","user2","user2@user.ru",13,"user2","user2");
+        user2.setRoles(rolesUser);
         userUser.setRoles(rolesUser);
         userService.save(userUser);
+        userService.save(user2);
+        userService.save(admin2);
     }
 }

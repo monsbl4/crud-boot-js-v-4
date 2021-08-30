@@ -9,7 +9,6 @@ import ru.denisov.springboot.dao.RoleDao;
 import ru.denisov.springboot.dao.UserDao;
 import ru.denisov.springboot.models.User;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -36,14 +35,16 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userDao.save(user);
+        return user;
     }
 
     @Override
-    public void update( User updatedUser) {
+    public User update(User updatedUser) {
         userDao.update(updatedUser);
+        return updatedUser;
     }
 
     @Override
@@ -80,4 +81,10 @@ public class UserServiceImp implements UserService {
     public User getUserByEmail(String email) {
         return userDao.getUserByEmail(email);
     }
+
+    @Override
+    public User getUserById(int id) {
+        return userDao.getUserById(id);
+    }
+
 }

@@ -1,5 +1,6 @@
 package ru.denisov.springboot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -8,10 +9,6 @@ import java.util.List;
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
-    @Override
-    public String toString() {
-        return role;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +17,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "role")
     private String role;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     List <User> users;
 
@@ -56,6 +54,12 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return getRole();
+        return role;
     }
+
+    @Override
+    public String toString() {
+        return getAuthority();
+    }
+
 }

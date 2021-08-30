@@ -6,16 +6,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.denisov.springboot.services.UserServiceImp;
+import ru.denisov.springboot.services.UserService;
 
 @Controller
 @RequestMapping("/users")
 public class UsersController {
     @Autowired
-    private UserServiceImp userServiceImp;
+    private UserService userService;
     @GetMapping("/{username}")
     public String show(@PathVariable("username") String username, Model model){
-        model.addAttribute("user",userServiceImp.getUserByUsername(username));
+        model.addAttribute("user",userService.getUserByUsername(username));
         return "users/user";
     }
 }

@@ -4,25 +4,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "name", length = 30)
-    @Size(min = 2,max = 30, message = "Имя должно содержать от 2 до 30 символов")
     private String name;
 
     @Column (name = "last_name", length = 60)
-    @Size(min = 2,max = 60, message = "Фамилия должна содержать от 2 до 60 символов")
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true, length = 60)
@@ -30,14 +26,12 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "age")
-    @Min(value = 0, message = "возраст должен быть больше 0")
     private int age;
 
-
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany( fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     @Column(name = "username",nullable = false)
     @Size(min = 2, max = 15, message = "введите логин")
@@ -45,13 +39,25 @@ public class User implements UserDetails {
 
     @Column(name = "password")
     private String password;
-    public User(String name, String lastName, String email, int age,  String username, String password) {
+
+    public User( String name, String lastName, String email, int age, String username, String password) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
         this.username = username;
         this.password = password;
+    }
+
+    public User(String name, String lastName, String email, int age, String username, String password, Set <Role> roles) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public String getUsername() {

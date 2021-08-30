@@ -44,9 +44,9 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
     @Override
     public User getUserByUsername(String username) {
         TypedQuery<User> user = entityManager.createQuery(
-                "select user from User user WHERE user.username=:username", User.class
-        );
-        return user.setParameter("username", username).getResultList().stream().findAny().orElse(null);
+                "select user from User user WHERE user.username=:username", User.class);
+        user.setParameter("username", username);
+        return user.getSingleResult();
     }
 
     @Transactional
@@ -62,6 +62,12 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
                 "select user from User user WHERE user.email=:email", User.class
         );
         return user.setParameter("email", email).getResultList().stream().findAny().orElse(null);
+    }
+
+
+    @Override
+    public User getUserById(int id) {
+        return entityManager.find(User.class, id);
     }
 
 
