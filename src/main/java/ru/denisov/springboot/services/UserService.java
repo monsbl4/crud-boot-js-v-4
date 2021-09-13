@@ -12,7 +12,5 @@ public interface UserService extends UserDetailsService {
     public User update(User updatedUser);
     public void delete(int id);
     public User getUserByUsername(String username);
-    public boolean saveUser(User user);
-    public User getUserByEmail(String email);
     public User getUserById(int id);
 }

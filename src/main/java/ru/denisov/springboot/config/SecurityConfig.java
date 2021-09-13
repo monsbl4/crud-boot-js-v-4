@@ -1,11 +1,11 @@
 package ru.denisov.springboot.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import ru.denisov.springboot.config.handler.LoginSuccessHandler;
-import ru.denisov.springboot.dao.UserDao;
 
 import javax.servlet.ServletContext;
 
@@ -26,16 +25,13 @@ import javax.servlet.ServletContext;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserDao userDao;
+    private AuthenticationProvider authenticationProvider;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
 
     @Autowired
     public void configureAuthManager(AuthenticationManagerBuilder authenticationManagerBuilder){
@@ -49,11 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
-
-    @Autowired
-    private LoginSuccessHandler loginSuccessHandler;
-
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -71,10 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .and().csrf().disable();
 
-
-//                .authorizeRequests()
-//                .antMatchers("/login").anonymous()
-
     }
 
     @Bean
@@ -86,4 +73,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         aContext.addFilter("hiddenHttpMethodFilter",
                 new HiddenHttpMethodFilter()).addMappingForUrlPatterns(null ,true, "/*");
     }
+
 }

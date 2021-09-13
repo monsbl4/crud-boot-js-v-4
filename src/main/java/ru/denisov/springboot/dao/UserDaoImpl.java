@@ -31,14 +31,15 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
         entityManager.persist(user);
     }
 
-
     @Transactional
+    @Override
     public void update(User updatedUser) { ;
         entityManager.merge(updatedUser);
     }
     @Transactional
     public void delete(int id) {
-        entityManager.remove(show(id));
+        entityManager.remove(getUserById(id));
+        entityManager.flush();
     }
 
     @Override
@@ -49,12 +50,6 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
         return user.getSingleResult();
     }
 
-    @Transactional
-    public void saveWithRole(User user, Set<Role> roleSet) {
-        entityManager.persist(user);
-
-
-    }
 
     @Override
     public User getUserByEmail(String email) {

@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private int age;
 
     @ManyToMany( fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
@@ -39,6 +39,9 @@ public class User implements UserDetails {
 
     @Column(name = "password")
     private String password;
+
+    public User() {
+    }
 
     public User( String name, String lastName, String email, int age, String username, String password) {
         this.id = id;
@@ -51,6 +54,16 @@ public class User implements UserDetails {
     }
 
     public User(String name, String lastName, String email, int age, String username, String password, Set <Role> roles) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(String username, String name, String lastName, String email, int age, String password, Set<Role> roles) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
@@ -133,9 +146,6 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public User() {
-    }
-
     public int getId() {
         return id;
     }
@@ -150,6 +160,10 @@ public class User implements UserDetails {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRolesUsers() {
+        return roles.toString().replaceAll("^\\[|\\]$", "");
     }
 
 }

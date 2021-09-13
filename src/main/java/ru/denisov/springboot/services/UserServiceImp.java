@@ -18,9 +18,6 @@ public class UserServiceImp implements UserService {
     private UserDao userDao;
 
     @Autowired
-    private RoleDao roleDao;
-
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
@@ -43,6 +40,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User update(User updatedUser) {
+        if (updatedUser.getPassword().equals(userDao.getUserByUsername(updatedUser.getUsername()).getPassword())){
+            updatedUser.setPassword(userDao.getUserByUsername(updatedUser.getUsername()).getPassword());
+        } else {
+            updatedUser.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
+        }
         userDao.update(updatedUser);
         return updatedUser;
     }
@@ -60,11 +62,11 @@ public class UserServiceImp implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getUserByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("User 'username' not found!", username));
-        }
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), user.getAuthorities());
-        return userDetails;
+//        if (user == null) {
+//            throw new UsernameNotFoundException(String.format("User 'username' not found!", username));
+//        }
+//        UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), user.getAuthorities());
+        return user;
     }
 
     public boolean saveUser(User user) {
@@ -75,11 +77,6 @@ public class UserServiceImp implements UserService {
         }
         save(user);
         return true;
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        return userDao.getUserByEmail(email);
     }
 
     @Override
