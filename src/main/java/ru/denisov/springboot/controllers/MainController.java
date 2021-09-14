@@ -4,8 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.denisov.springboot.models.User;
 
+import javax.transaction.Transactional;
+
 @Controller
 @RequestMapping("/")
+@Transactional
 public class MainController {
 
     @GetMapping(value = "/admin")

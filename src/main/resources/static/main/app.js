@@ -52,12 +52,13 @@ function getRole(address) {
 }
 
 function showAllUsers() {
+    console.log('start')
     let UserTableBody = $("#user_table_body")
 
     UserTableBody.empty();
 
 
-    fetch("api/allUsers")
+    fetch("/api/allUsers")
         .then((response) => {
             console.log(response)
             response.json().then(data => data.forEach(function (user) {

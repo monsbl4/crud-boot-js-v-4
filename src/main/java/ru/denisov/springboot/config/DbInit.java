@@ -14,15 +14,19 @@ import java.util.Set;
 
 @Component
 public class DbInit {
-    @Autowired
-    private UserService userService;
+    private  UserService userService;
 
-    @Autowired
     private RoleDao roleDao;
 
     private Set<Role> roles = new HashSet<>();
     private Set<Role> rolesAdmin = new HashSet<>();
     private Set<Role> rolesUser = new HashSet<>();
+
+    @Autowired
+    public DbInit(UserService userService, RoleDao roleDao) {
+        this.userService = userService;
+        this.roleDao = roleDao;
+    }
 
     @PostConstruct
     private void postConstruct() {
