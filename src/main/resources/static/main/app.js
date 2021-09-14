@@ -11,7 +11,7 @@ $(document).ready(function () {
             roles: getRole("#selectRole")
         }
         console.log(user);
-        fetch("api/newUser", {
+        fetch("/api/newUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -129,7 +129,7 @@ function delModalButton(href) {
 }
 
 function editModalButton(user) {
-    fetch("api/edit", {
+    fetch("/api/edit", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json;charset=utf-8"

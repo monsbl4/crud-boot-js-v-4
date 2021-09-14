@@ -1,8 +1,6 @@
 package ru.denisov.springboot.dao;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import ru.denisov.springboot.models.Role;
 import ru.denisov.springboot.models.User;
 
 import javax.persistence.EntityManager;
@@ -10,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
@@ -51,14 +48,6 @@ public class UserDaoImpl implements ru.denisov.springboot.dao.UserDao {
         return user.getSingleResult();
     }
 
-
-//    @Override
-//    public User getUserByEmail(String email) {
-//        TypedQuery<User> user = entityManager.createQuery(
-//                "select user from User user WHERE user.email=:email", User.class
-//        );
-//        return user.setParameter("email", email).getResultList().stream().findAny().orElse(null);
-//    }
 
 
     @Override

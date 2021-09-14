@@ -7,7 +7,7 @@ import ru.denisov.springboot.models.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Set;
+
 
 
 @Repository
@@ -26,11 +26,4 @@ public class RoleImpl implements RoleDao{
         em.persist(role);
     }
 
-    @Override
-    public Role getRoleByName(String roleName) {
-            Role role = em.createQuery("SELECT r FROM Role r where r.role = :role", Role.class)
-                    .setParameter("role", roleName)
-                    .getSingleResult();
-            return role;
-    }
 }

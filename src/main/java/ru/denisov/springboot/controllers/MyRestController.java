@@ -10,34 +10,34 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("")
 public class MyRestController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/allUsers")
+    @GetMapping("api/allUsers")
     public List<User> getAllUsers() {
         return userService.index();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("api/{id}")
     public User getUser(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("newUser")
+    @PostMapping("api/newUser")
     public User newUser(@Valid @RequestBody User user) {
         User newUser = user;
         return userService.save(newUser);
     }
 
-    @PutMapping("edit")
+    @PutMapping("api/edit")
     public User updateUser(@Valid @RequestBody User user) {
         return userService.update(user);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("api/delete/{id}")
     public void deleteUser(@PathVariable("id") int id) {
         userService.delete(id);
     }
